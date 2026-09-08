@@ -1,0 +1,24 @@
+{
+  "name": "styling-lint",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24",
+    "npm": ">=12"
+  },
+  "scripts": {
+    "prepare": "node scripts/prepare.mjs",
+    "check": "concurrently --group \"node scripts/cargo.mjs fmt --check\" \"node scripts/cargo.mjs clippy --locked --all-targets -- -D warnings\" \"node scripts/cargo.mjs run --locked -- check\" \"node tools.mjs run actionlint\"",
+    "fix": "concurrently -m 1 --group \"node scripts/cargo.mjs clippy --locked --fix --allow-dirty --allow-staged --all-targets\" \"node scripts/cargo.mjs fmt\" \"node scripts/cargo.mjs run --locked -- fix\"",
+    "unit": "node scripts/cargo.mjs test --locked --lib --test spacing && node scripts/cargo.mjs test --locked --doc",
+    "integration": "node scripts/cargo.mjs test --locked --test cli",
+    "build": "node scripts/cargo.mjs build --locked --release",
+    "package": "node scripts/cargo.mjs package --locked"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "concurrently": "^10.0.5"
+  },
+  "allowScripts": {}
+}
