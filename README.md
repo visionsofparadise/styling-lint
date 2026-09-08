@@ -17,10 +17,10 @@ finish()
 
 ## Install
 
-Requires Rust 1.85 or later. Until the first crates.io release, install from GitHub:
+Requires Rust 1.85 or later.
 
 ```sh
-cargo install --git https://github.com/visionsofparadise/styling-lint --locked
+cargo install styling-lint --locked
 ```
 
 ## Usage
