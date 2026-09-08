@@ -7,13 +7,13 @@
     "npm": ">=12"
   },
   "scripts": {
-    "prepare": "node scripts/prepare.mjs",
-    "check": "concurrently --group \"node scripts/cargo.mjs fmt --check\" \"node scripts/cargo.mjs clippy --locked --all-targets -- -D warnings\" \"node scripts/cargo.mjs run --locked -- check\" \"node tools.mjs run actionlint\"",
-    "fix": "concurrently -m 1 --group \"node scripts/cargo.mjs clippy --locked --fix --allow-dirty --allow-staged --all-targets\" \"node scripts/cargo.mjs fmt\" \"node scripts/cargo.mjs run --locked -- fix\"",
-    "unit": "node scripts/cargo.mjs test --locked --lib --test spacing && node scripts/cargo.mjs test --locked --doc",
-    "integration": "node scripts/cargo.mjs test --locked --test cli",
-    "build": "node scripts/cargo.mjs build --locked --release",
-    "package": "node scripts/cargo.mjs package --locked"
+    "prepare": "node -e \"import('node:child_process').then(({execSync})=>{try{execSync('git rev-parse --is-inside-work-tree',{stdio:'ignore'});execSync('git config core.hooksPath .githooks')}catch{}})\" && node tools.mjs install",
+    "check": "concurrently --group \"cargo fmt --check\" \"cargo clippy --locked --all-targets -- -D warnings\" \"cargo run --locked -- check\" \"node tools.mjs run actionlint\"",
+    "fix": "concurrently -m 1 --group \"cargo clippy --locked --fix --allow-dirty --allow-staged --all-targets\" \"cargo fmt\" \"cargo run --locked -- fix\"",
+    "unit": "cargo test --locked --lib --test spacing && cargo test --locked --doc",
+    "integration": "cargo test --locked --test cli",
+    "build": "cargo build --locked --release",
+    "package": "cargo package --locked"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
