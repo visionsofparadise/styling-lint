@@ -8,11 +8,17 @@
   },
   "scripts": {
     "prepare": "node -e \"import('node:child_process').then(({execSync})=>{try{execSync('git rev-parse --is-inside-work-tree',{stdio:'ignore'});execSync('git config core.hooksPath .githooks')}catch{}})\" && node tools.mjs install",
+    "precheck": "node sweep.mjs",
     "check": "concurrently --group \"cargo fmt --check\" \"cargo clippy --locked --all-targets -- -D warnings\" \"cargo run --locked -- check\" \"node tools.mjs run actionlint\"",
+    "prefix": "node sweep.mjs",
     "fix": "concurrently -m 1 --group \"cargo clippy --locked --fix --allow-dirty --allow-staged --all-targets\" \"cargo fmt\" \"cargo run --locked -- fix\"",
+    "preunit": "node sweep.mjs",
     "unit": "cargo test --locked --lib --test spacing && cargo test --locked --doc",
+    "preintegration": "node sweep.mjs",
     "integration": "cargo test --locked --test cli",
+    "prebuild": "node sweep.mjs",
     "build": "cargo build --locked --release",
+    "prepackage": "node sweep.mjs",
     "package": "cargo package --locked"
   },
   "devDependencies": {
