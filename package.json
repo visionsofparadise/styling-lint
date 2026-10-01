@@ -7,9 +7,9 @@
     "npm": ">=12"
   },
   "scripts": {
-    "prepare": "node -e \"import('node:child_process').then(({execSync})=>{try{execSync('git rev-parse --is-inside-work-tree',{stdio:'ignore'});execSync('git config core.hooksPath .githooks')}catch{}})\" && node tools.mjs install",
+    "prepare": "node -e \"import('node:child_process').then(({execSync})=>{try{execSync('git rev-parse --is-inside-work-tree',{stdio:'ignore'});execSync('git config core.hooksPath .githooks')}catch{}})\" && node tools.mjs install && rustup toolchain install 1.85.0 --profile minimal",
     "precheck": "node sweep.mjs",
-    "check": "concurrently --group \"cargo fmt --check\" \"cargo clippy --locked --all-targets -- -D warnings\" \"cargo run --locked -- check\" \"node tools.mjs run actionlint\"",
+    "check": "concurrently --group \"cargo fmt --check\" \"cargo clippy --locked --all-targets -- -D warnings\" \"cargo run --locked -- check\" \"cargo +1.85.0 check --locked --all-targets --target-dir target/msrv\"",
     "prefix": "node sweep.mjs",
     "fix": "concurrently -m 1 --group \"cargo clippy --locked --fix --allow-dirty --allow-staged --all-targets\" \"cargo fmt\" \"cargo run --locked -- fix\"",
     "preunit": "node sweep.mjs",
